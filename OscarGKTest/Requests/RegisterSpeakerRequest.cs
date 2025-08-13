@@ -73,20 +73,18 @@ public static class RegisterSpeakerRequestHandler
             Sessions = request.Sessions
         };
 
-        // TODO: re-write the rest of the method
-
-        int? speakerId = null;
         try
         {
-            speakerId = repository.SaveSpeaker(speaker);
+            var speakerId = repository.SaveSpeaker(speaker);
+            return new RegisterSpeakerResponse(speakerId);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //in case the db call fails 
-        }
+            // Make sure we log the expection using the project's logger, for example:
+            // _logger.LogError(ex, "Error while saving speaker");
 
-		//if we got this far, the speaker is registered.
-		return new RegisterSpeakerResponse((int)speakerId);
+            return new RegisterSpeakerResponse(RegisterError.DatabaseFailure);
+        }
 	}
 
     private static RegisterError? ValidateRequest(RegisterSpeakerRequest request)

@@ -4,6 +4,8 @@ using OscarGKTest.Requests;
 
 Console.WriteLine("Starting Oscar GK Test");
 
+// Request object would be built up by the user, perhaps via a web form for example
+// Here, we hard-code a request as an example
 var request = new RegisterSpeakerRequest
 {
     FirstName = "first-name",

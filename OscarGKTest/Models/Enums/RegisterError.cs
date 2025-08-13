@@ -8,4 +8,5 @@ public enum RegisterError
     LastNameRequired,
     EmailRequired,
     SpeakerDoesNotMeetStandards,
+    DatabaseFailure,
 }
