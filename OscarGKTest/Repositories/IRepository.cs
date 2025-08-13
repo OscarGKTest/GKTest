@@ -1,4 +1,6 @@
-﻿namespace OscarGKTest.Repositories;
+﻿using OscarGKTest.Models;
+
+namespace OscarGKTest.Repositories;
 
 public interface IRepository
 {
