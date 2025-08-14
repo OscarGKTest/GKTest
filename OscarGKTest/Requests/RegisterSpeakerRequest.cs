@@ -12,11 +12,11 @@ public class RegisterSpeakerRequest
     public int Experience { get; set; }
     public bool HasBlog { get; set; }
     public string? BlogUrl { get; set; }
-    public WebBrowser? Browser { get; set; } // Concession - assume another part of the program converts string browserName to WebBrowser - to re-evaluate
-    public List<string> Certifications { get; set; } = []; // Concession - assume another part of the program converts csv string to List<string> - to re-evaluate
+    public WebBrowser? Browser { get; set; } // Concession - assume another part of the program converts string browserName to WebBrowser
+    public List<string> Certifications { get; set; } = []; // Concession - assume another part of the program converts csv string to List<string>
     public string? EmployerName { get; set; }
     public int Fee { get; set; }
-    public List<Session> Sessions { get; set; } = []; // Concession - assume another part of the program converts csv string to List<Session> - to re-evaluate
+    public List<Session> Sessions { get; set; } = []; // Concession - assume another part of the program converts csv string to List<Session>
 }
 
 public class RegisterSpeakerResponse
@@ -38,6 +38,7 @@ public class RegisterSpeakerResponse
     }
 }
 
+// Concession - I have made this static for simplcity - I would potentially use MediatiR and make this a request handler
 public static class RegisterSpeakerRequestHandler
 {
 	public static RegisterSpeakerResponse RegisterSpeaker(RegisterSpeakerRequest request, IRepository repository)
@@ -55,7 +56,7 @@ public static class RegisterSpeakerRequestHandler
             >= 2 and <= 3 => 250,
             >= 4 and <= 5 => 100,
             >= 6 and <= 9 => 50,
-            _             => 50,
+            _             => 0,
         };
 
         var speaker = new Speaker
@@ -104,17 +105,19 @@ public static class RegisterSpeakerRequestHandler
 			return RegisterError.EmailRequired;
 		}
 
-        List<string> employerNames = [ "Pluralsight", "Microsoft", "Google" ];
+        List<string> validEmployerNames = ["Pluralsight", "Microsoft", "Google"];
 
-        var speakerMeetsStandards = request.Experience > 10 || request.HasBlog || request.Certifications.Count > 3 || employerNames.Contains(request.EmployerName);
+        var employerNameInValidList = validEmployerNames.Any(x => string.Equals(x, request.EmployerName, StringComparison.OrdinalIgnoreCase));
+
+        var speakerMeetsStandards = request.Experience > 10 || request.HasBlog || request.Certifications.Count > 3 || employerNameInValidList;
 
         if (!speakerMeetsStandards)
         {
-            List<string> domainBlockList = [ "aol.com", "prodigy.com", "compuserve.com" ];
+            List<string> domainBlockList = ["aol.com", "prodigy.com", "compuserve.com"];
 
             var emailDomain = request.Email.Split('@').Last();
 
-            var isEmailDomainBlocked = domainBlockList.Contains(emailDomain);
+            var isEmailDomainBlocked = domainBlockList.Any(x => string.Equals(x, emailDomain, StringComparison.OrdinalIgnoreCase));
             var isBrowserBlocked = request.Browser?.Name == WebBrowser.BrowserName.InternetExplorer && request.Browser?.MajorVersion < 9;
 
             if (isEmailDomainBlocked || isBrowserBlocked)
@@ -128,28 +131,29 @@ public static class RegisterSpeakerRequestHandler
             return RegisterError.NoSessionsProvided;
         }
 
-		//List<string> newTech = [ "Node.js", "Docker" ];
-		List<string> oldTech = [ "Cobol", "Punch Cards", "Commodore", "VBScript" ];
-
+        // Removed the newTech code that was commented out
+        // Made the assumption that the newTech check was an old business requirement
+        // Perhaps we used to only allow talks about new tech, but now, we allow any talks as long as it's not about the below old techs
         foreach (var session in request.Sessions)
         {
-            //foreach (var tech in newTech)
-            //{
-            //    if (session.Title.Contains(tech))
-            //    {
-            //        session.Approved = true;
-            //        break;
-            //    }
-            //}
+            var sessionContainsOldTech = StringContainsOldTech(session.Title ?? "") || StringContainsOldTech(session.Description ?? "");
 
-            session.Approved = !oldTech.Any(tech => session.Title?.Contains(tech) == true || session.Description?.Contains(tech) == true);
+            session.Approved = !sessionContainsOldTech;
         }
 
+        // Assumed that you only need one session to be approved in order to register
         if (!request.Sessions.Any(x => x.Approved))
         {
             return RegisterError.NoSessionsApproved;
         }
 
         return null;
+    }
+
+    private static bool StringContainsOldTech(string input)
+    {
+		List<string> oldTech = ["Cobol", "Punch Cards", "Commodore", "VBScript"];
+
+        return oldTech.Any(tech => input.Contains(tech, StringComparison.OrdinalIgnoreCase));
     }
 }

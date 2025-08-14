@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OscarGKTest", "OscarGKTest\OscarGKTest.csproj", "{26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OscarGKTest.Tests", "OscarGKTest.Tests\OscarGKTest.Tests.csproj", "{B26EFCCD-0CFC-47E0-8449-AB96469C30FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD} = {26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FD0DEA-AFCD-4576-8F9B-D104CAE9D8DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26EFCCD-0CFC-47E0-8449-AB96469C30FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26EFCCD-0CFC-47E0-8449-AB96469C30FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26EFCCD-0CFC-47E0-8449-AB96469C30FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26EFCCD-0CFC-47E0-8449-AB96469C30FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
