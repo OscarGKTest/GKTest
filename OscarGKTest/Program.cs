@@ -20,7 +20,7 @@ var request = new RegisterSpeakerRequest
     Sessions = [ new() { Title = "session-title" } ]
 };
 
-// TODO: Tidy this up. Should we add MediatR to do this properly?
+// Should we add MediatR to do this properly?
 // Also, repository would be passed in via dependancy injection.
 var registerResult = RegisterSpeakerRequestHandler.RegisterSpeaker(request, new Repository());
 
