@@ -41,6 +41,13 @@ public class RegisterSpeakerResponse
 // Concession - I have made this static for simplcity - I would potentially use MediatiR and make this a request handler
 public static class RegisterSpeakerRequestHandler
 {
+    /// <summary>
+    /// Registers a speaker, performing validation and calculating fees.
+    /// If validation is successful, the speaker is saved to the database, and the Speaker ID is returned
+    /// </summary>
+    /// <param name="request">The <see cref="RegisterSpeakerRequest"/> containing the new speakers details.</param>
+    /// <param name="repository">The repository used to save the new speaker to the database.</param>
+    /// <returns>A <see cref="RegisterError"/> indicating success or the error encountered.</returns>
     public static RegisterSpeakerResponse RegisterSpeaker(RegisterSpeakerRequest request, IRepository repository)
     {
         var validationError = ValidateRequest(request);
