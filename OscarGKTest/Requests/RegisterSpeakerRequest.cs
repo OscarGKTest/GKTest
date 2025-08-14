@@ -41,8 +41,8 @@ public class RegisterSpeakerResponse
 // Concession - I have made this static for simplcity - I would potentially use MediatiR and make this a request handler
 public static class RegisterSpeakerRequestHandler
 {
-	public static RegisterSpeakerResponse RegisterSpeaker(RegisterSpeakerRequest request, IRepository repository)
-	{
+    public static RegisterSpeakerResponse RegisterSpeaker(RegisterSpeakerRequest request, IRepository repository)
+    {
         var validationError = ValidateRequest(request);
 
         if (validationError != null)
@@ -86,24 +86,24 @@ public static class RegisterSpeakerRequestHandler
 
             return new RegisterSpeakerResponse(RegisterError.DatabaseFailure);
         }
-	}
+    }
 
     private static RegisterError? ValidateRequest(RegisterSpeakerRequest request)
     {
-		if (string.IsNullOrWhiteSpace(request.FirstName))
-		{
-			return RegisterError.FirstNameRequired;
-		}
+        if (string.IsNullOrWhiteSpace(request.FirstName))
+        {
+            return RegisterError.FirstNameRequired;
+        }
 
-		if (string.IsNullOrWhiteSpace(request.LastName))
-		{
-			return RegisterError.LastNameRequired;
-		}
+        if (string.IsNullOrWhiteSpace(request.LastName))
+        {
+            return RegisterError.LastNameRequired;
+        }
 
-		if (string.IsNullOrWhiteSpace(request.Email))
-		{
-			return RegisterError.EmailRequired;
-		}
+        if (string.IsNullOrWhiteSpace(request.Email))
+        {
+            return RegisterError.EmailRequired;
+        }
 
         List<string> validEmployerNames = ["Pluralsight", "Microsoft", "Google"];
 
@@ -152,7 +152,7 @@ public static class RegisterSpeakerRequestHandler
 
     private static bool StringContainsOldTech(string input)
     {
-		List<string> oldTech = ["Cobol", "Punch Cards", "Commodore", "VBScript"];
+        List<string> oldTech = ["Cobol", "Punch Cards", "Commodore", "VBScript"];
 
         return oldTech.Any(tech => input.Contains(tech, StringComparison.OrdinalIgnoreCase));
     }
