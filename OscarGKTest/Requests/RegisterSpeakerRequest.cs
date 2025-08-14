@@ -57,7 +57,7 @@ public static class RegisterSpeakerRequestHandler
             return new RegisterSpeakerResponse(validationError.Value);
         }
 
-        int registrationFee = request.Experience switch
+        var registrationFee = request.Experience switch
         {
             <= 1          => 500,
             >= 2 and <= 3 => 250,
